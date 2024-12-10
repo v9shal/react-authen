@@ -9,15 +9,15 @@ Frontend:
 
     React: Component-based user interface.
     Redux: State management.
-    React Router: Navigation and route protection.
-    Axios: HTTP client for API requests.
+    
+  
 
 Backend:
 
-    Node.js: Server-side JavaScript runtime.
-    Express.js: Web framework for building APIs.
-    JWT: Authentication tokens.
-    bcrypt: Secure password hashing.
+    Node.js
+    Express.js
+    JWT
+    
 
 Database:
 
