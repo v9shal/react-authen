@@ -1,50 +1,28 @@
-# React + TypeScript + Vite
+React Authentication System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A secure and scalable authentication system built with React, Redux, Node.js, Express, and MongoDB. This  provides features for user registration, login, authentication, and authorization using JWT tokens and implements best practices for security.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+Technologies Used
+Frontend:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+    React: Component-based user interface.
+    Redux: State management.
+    React Router: Navigation and route protection.
+    Axios: HTTP client for API requests.
 
-- Configure the top-level `parserOptions` property like this:
+Backend:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+    Node.js: Server-side JavaScript runtime.
+    Express.js: Web framework for building APIs.
+    JWT: Authentication tokens.
+    bcrypt: Secure password hashing.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Database:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+    MongoDB: NoSQL database for storing user information.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Deployment:
+
+    Docker: Containerized application for easy deployment
