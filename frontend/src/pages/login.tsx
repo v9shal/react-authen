@@ -42,7 +42,7 @@ const Login: React.FC = () => {
   
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`, 
+        `http://localhost:7000/api/auth/login`, 
         {
           username: trimmedUsername,
           password: formData.password
@@ -59,9 +59,10 @@ const Login: React.FC = () => {
       if (response.status === 200 && response.data.user) {
         dispatch(setCredentials({
           username: response.data.user.username, 
-          token: 'VALID_SESSION'
+          token: response.data.user.token,
+          role:response.data.user.role
         }));
-        
+        console.log(response.data.user.token)
         const origin = location.state?.from?.pathname || '/dash';
         navigate(origin, { replace: true });
       }

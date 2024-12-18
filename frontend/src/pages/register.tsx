@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState<String|any>('');
+  const [password, setPassword] = useState<String|any>('');
+  const [message, setMessage] = useState<String|any>('');
+  const [role,setRole]=useState<String|any>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:7000/api/auth/register', {
         username,
-        password
+        password,
+        role
       });
       setMessage('User registered successfully!');
     } catch (error: any) {
@@ -38,6 +40,16 @@ const Register = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          </div>
+          <div>
+            <label>Role</label>
+          <input
+            type='text'
+            placeholder='User or Provider'
+            value={role}
+            onChange={(e)=>setRole(e.target.value)}
             required
           />
         </div>

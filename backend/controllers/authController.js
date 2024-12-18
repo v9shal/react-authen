@@ -1,16 +1,25 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-const bcrypt=require('bcrypt')
+const bcrypt = require('bcrypt');
 
 exports.register = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
+
+    // Input validation
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required' });
+    }
+
+    if (username.length < 3 || username.length > 20) {
+      return res.status(400).json({ message: 'Username must be between 3 and 20 characters' });
+    }
 
     if (password.length < 6) {
       return res.status(400).json({ message: 'Password must be at least 6 characters' });
     }
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ username: username.trim() });
     if (existingUser) {
       return res.status(400).json({ message: 'Username already exists' });
     }
@@ -18,8 +27,9 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
-      username,
-      password: hashedPassword
+      username: username.trim(),
+      password: hashedPassword,
+      role: role || 'user' // Default role if not specified
     });
 
     await user.save();
@@ -28,7 +38,8 @@ exports.register = async (req, res) => {
       message: 'User registered successfully',
       user: { 
         id: user._id, 
-        username: user.username 
+        username: user.username,
+        role: user.role
       }
     });
   } catch (error) {
@@ -41,6 +52,10 @@ exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    // Input validation
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required' });
+    }
 
     const user = await User.findOne({ 
       username: username.trim() 
@@ -65,10 +80,11 @@ exports.login = async (req, res) => {
     const token = jwt.sign(
       { 
         id: user._id, 
-        username: user.username 
+        username: user.username,
+        role: user.role
       },
       process.env.JWT_SECRET || 'fallback_secret',
-      { expiresIn: '1h' }
+      { expiresIn: '4h' }
     );
 
     res.cookie('authToken', token, {
@@ -82,7 +98,9 @@ exports.login = async (req, res) => {
       message: 'Login successful',
       user: { 
         id: user._id, 
-        username: user.username 
+        username: user.username,
+        role: user.role,
+        token: token
       }
     });
 
@@ -109,6 +127,8 @@ exports.verify = async (req, res) => {
       user: {
         id: decoded.id,
         username: decoded.username,
+        role: decoded.role,
+        token: token,
       }
     });
   } catch (err) {
